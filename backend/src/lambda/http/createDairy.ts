@@ -31,7 +31,7 @@ export const handler: APIGatewayProxyHandler = async (event: APIGatewayProxyEven
       uploadUrl: url
     })
   }
-  // TODO: Implement creating a new TODO item
+
   return undefined
 }
 

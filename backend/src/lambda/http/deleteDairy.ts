@@ -38,6 +38,6 @@ export const handler: APIGatewayProxyHandler = async (
     }
   })
 
-  // TODO: Remove a TODO item by id
+
   return undefined
 }

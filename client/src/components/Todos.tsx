@@ -14,57 +14,57 @@ import {
   Loader
 } from 'semantic-ui-react'
 
-import { createTodo, deleteTodo, getTodos, patchTodo } from '../api/todos-api'
+import { createDairy, deleteDairy, getDairys, patchDairy } from '../api/dairies-api'
 import Auth from '../auth/Auth'
-import { Todo } from '../types/Todo'
+import { Dairy } from '../types/Dairy'
 
-interface TodosProps {
+interface DairysProps {
   auth: Auth
   history: History
 }
 
-interface TodosState {
-  todos: Todo[]
-  newTodoName: string
-  loadingTodos: boolean
+interface DairysState {
+  dairies: Dairy[]
+  newDairyName: string
+  loadingDairys: boolean
 }
 
-export class Todos extends React.PureComponent<TodosProps, TodosState> {
-  state: TodosState = {
-    todos: [],
-    newTodoName: '',
-    loadingTodos: true
+export class Dairys extends React.PureComponent<DairysProps, DairysState> {
+  state: DairysState = {
+    dairies: [],
+    newDairyName: '',
+    loadingDairys: true
   }
 
   handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ newTodoName: event.target.value })
+    this.setState({ newDairyName: event.target.value })
   }
 
-  onEditButtonClick = (todoId: string) => {
-    this.props.history.push(`/todos/${todoId}/edit`)
+  onEditButtonClick = (dairyId: string) => {
+    this.props.history.push(`/todos/${dairyId}/edit`)
   }
 
   onTodoCreate = async (event: React.ChangeEvent<HTMLButtonElement>) => {
     try {
       const dueDate = this.calculateDueDate()
-      const newTodo = await createTodo(this.props.auth.getIdToken(), {
-        name: this.state.newTodoName,
+      const newDairy = await createDairy(this.props.auth.getIdToken(), {
+        name: this.state.newDairyName,
         dueDate
       })
       this.setState({
-        todos: [...this.state.todos, newTodo],
-        newTodoName: ''
+        dairies: [...this.state.dairies, newDairy],
+        newDairyName: ''
       })
     } catch {
       alert('Todo creation failed')
     }
   }
 
-  onTodoDelete = async (todoId: string) => {
+  onTodoDelete = async (dairyId: string) => {
     try {
-      await deleteTodo(this.props.auth.getIdToken(), todoId)
+      await deleteDairy(this.props.auth.getIdToken(), dairyId)
       this.setState({
-        todos: this.state.todos.filter(todo => todo.todoId != todoId)
+        dairies: this.state.dairies.filter(todo => todo.dairyId != dairyId)
       })
     } catch {
       alert('Todo deletion failed')
@@ -73,15 +73,15 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
 
   onTodoCheck = async (pos: number) => {
     try {
-      const todo = this.state.todos[pos]
-      await patchTodo(this.props.auth.getIdToken(), todo.todoId, {
-        name: todo.name,
-        dueDate: todo.dueDate,
-        done: !todo.done
+      const dairy = this.state.dairies[pos]
+      await patchDairy(this.props.auth.getIdToken(), dairy.dairyId, {
+        name: dairy.name,
+        dueDate: dairy.dueDate,
+        done: !dairy.done
       })
       this.setState({
-        todos: update(this.state.todos, {
-          [pos]: { done: { $set: !todo.done } }
+        dairies: update(this.state.dairies, {
+          [pos]: { done: { $set: !dairy.done } }
         })
       })
     } catch {
@@ -91,10 +91,10 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
 
   async componentDidMount() {
     try {
-      const todos = await getTodos(this.props.auth.getIdToken())
+      const dairies = await getDairys(this.props.auth.getIdToken())
       this.setState({
-        todos,
-        loadingTodos: false
+        dairies,
+        loadingDairys: false
       })
     } catch (e) {
       alert(`Failed to fetch todos: ${e.message}`)
@@ -139,7 +139,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
   }
 
   renderTodos() {
-    if (this.state.loadingTodos) {
+    if (this.state.loadingDairys) {
       return this.renderLoading()
     }
 
@@ -159,9 +159,9 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
   renderTodosList() {
     return (
       <Grid padded>
-        {this.state.todos.map((todo, pos) => {
+        {this.state.dairies.map((todo, pos) => {
           return (
-            <Grid.Row key={todo.todoId}>
+            <Grid.Row key={todo.dairyId}>
               <Grid.Column width={1} verticalAlign="middle">
                 <Checkbox
                   onChange={() => this.onTodoCheck(pos)}
@@ -178,7 +178,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
                 <Button
                   icon
                   color="blue"
-                  onClick={() => this.onEditButtonClick(todo.todoId)}
+                  onClick={() => this.onEditButtonClick(todo.dairyId)}
                 >
                   <Icon name="pencil" />
                 </Button>
@@ -187,7 +187,7 @@ export class Todos extends React.PureComponent<TodosProps, TodosState> {
                 <Button
                   icon
                   color="red"
-                  onClick={() => this.onTodoDelete(todo.todoId)}
+                  onClick={() => this.onTodoDelete(todo.dairyId)}
                 >
                   <Icon name="delete" />
                 </Button>

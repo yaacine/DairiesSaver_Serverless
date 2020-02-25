@@ -37,6 +37,6 @@ docClient.update(params, function(err, data) {
     }
 });
 
-  // TODO: Update a TODO item with the provided id using values in the "updatedTodo" object
+
   return undefined
 }
