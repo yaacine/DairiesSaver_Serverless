@@ -20,7 +20,7 @@ provider:
     SIGNED_URL_EXPIRATION: 300
     AUTH_0_SECRET_ID: Auth0Secret-${self:provider.stage}
     AUTH_0_SECRET_FIELD: auth0Secret
-    AUTH_0_SECRET: 0abj8-NY3gFgn915v8HeRtRhqw8y91BgSAXPKtXanFnSn_GPMYg0Q8JTZ5EDBbIJ
+    AUTH_0_SECRET: 0abj8-sSJbH6MaZKr3dOX2m82090x2ktWS_Ti643Mf-12uqNPiH4sFriqWR8zz_deFaowu
 
   iamRoleStatements:
     - Effect: Allow
