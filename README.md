@@ -2,6 +2,10 @@
 
 This project, implements a simple Dairies savind application using AWS Lambda and Serverless framework. 
 
+# Deployment check
+
+The `Image` folder containes a screenshot of a successful deployment 
+
 # Functionality of the application
 
 This application will allow creating/removing/updating/fetching Dairy items. Each Dairy item can optionally have an attachment image. Each user only has access to Dairy items that he/she has created.
